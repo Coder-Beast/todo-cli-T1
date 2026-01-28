@@ -1,0 +1,16 @@
+package main
+
+import(
+	"encoding/json"
+	"net/http"
+)
+
+func respondJSON(w http.ResponseWriter, status int, payload any) {
+    w.Header().Set("Content-Type", "application/json")
+    w.WriteHeader(status) // e.g., 200 OK, 404 Not Found
+    json.NewEncoder(w).Encode(payload)
+}
+
+func respondError(w http.ResponseWriter, status int, message string) {
+    respondJSON(w, status, map[string]string{"error": message})
+}
